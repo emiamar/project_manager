@@ -1,0 +1,38 @@
+{% extends "base/base_dasboard_user.html" %}
+{% load crispy_forms_tags %}
+    {% block wrapper%}
+        {% if user_list %}
+            <div class="row">
+                <h3>Task List</h3>
+            </div><br><br>
+            <div class="row">
+                <div class="col-md-12">
+                    <tbody>
+                        <table class="table table-striped table-bordered" cellspacing="0" width="100%" id="mytable">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th scope="col">SlNo.</th>
+                                      <th scope="col">Task Type</th>
+                                      <th scope="col">Title</th>
+                                      <th scope="col">Description</th>
+                                      <th scope="col">Assign To</th>
+                                      <th scope="col">Status</th>
+                                  </tr>
+                              </thead>
+                              {% for ticket in user_list %}
+
+                                  <tr>
+                                      <td><a href="{% url 'ticket:user_details' ticket.id %}">TASK-{{forloop.counter}}</a></td>
+                                      <td>{{ ticket.get_ticket_type_display }}</td>
+                                      <td>{{ticket.title}}</td>
+                                      <td>{{ticket.description |truncatechars:20}}</td>
+                                      <td>{{ticket.assigned_list}}</td>
+                                      <td>{{ticket.get_status_display}}</td>
+                                  </tr>
+                              {% endfor %}
+                        </table>
+                    </tbody>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}

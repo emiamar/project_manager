@@ -11,10 +11,9 @@ class DashboardView(GeneralContextMixin, TemplateView):
 
     template_name = 'ticket/dashboard.html'
 
+class UserDashboardView(GeneralContextMixin, TemplateView):
 
-# def testing(request):
-#   return HttpRespose("hello")
-
+    template_name = 'ticket/user_dashboard.html'
 
 class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/ticket_list.html'
@@ -32,9 +31,9 @@ class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
         return ""
 
 
-# MilestoneListView
+# MilestoneListView TicketListUserView
 class TicketDetailView(GeneralContextMixin, TemplateView):
-    template_name = 'ticket/detail_user.html'
+    template_name = 'ticket/all_user_details.html'
 
     def get_context_data(self, **kwargs):
         ticket_id = kwargs.get("ticket_id")
@@ -46,12 +45,42 @@ class TicketDetailView(GeneralContextMixin, TemplateView):
         return context
 
 
+class TicketDetailUserView(GeneralContextMixin, TemplateView):
+    template_name = 'ticket/detail_user.html'
+
+    def get_context_data(self, **kwargs):
+        ticket_id = kwargs.get("ticket_id")
+        context = super(TicketDetailUserView, self).get_context_data(**kwargs)
+        detail_list = MileStone.objects.filter(ticket__id=ticket_id)
+        ticket = Ticket.objects.get(pk=ticket_id)
+        context['ticket'] = ticket
+        context['detail_list'] = detail_list
+        return context
+
+
+
+class TicketListUserView(GeneralContextMixin, TemplateView):
+    template_name = 'ticket/user_tcket_list.html'
+    model = Ticket
+    object_name = 'Ticket'
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user
+        user_list = Ticket.objects.filter(assigned_to=user_id)
+        context = super(TicketListUserView, self).get_context_data(**kwargs)
+        context['form'] = TaskForm ()
+        context['user_list'] = user_list
+        return context
+
+    def get_success_url(self):
+        return ""
+
+
 class TicketCreateView (GenericModalCreateView):
     form_class = TaskForm
     success_url = '/ticket/ticket_list/'
 
 
-class TicketUpdateView(GenericModalCreateView):
+class TicketUpdateView(GeneralContextMixin, GenericModalCreateView):
     form_class = TaskForm
     success_url = '/ticket/ticket_list/'
     object_name = 'TASK'
@@ -80,10 +109,15 @@ class TicketUpdateView(GenericModalCreateView):
 
 
 
-class TicketUpdateTemplateView (TemplateView):
+class TicketUpdateTemplateView (GeneralContextMixin, TemplateView):
     template_name = 'ticket/update.html'
 
     def get_context_data(self, **kwargs):
+        user_id = self.request.user
+        #user_list = Ticket.objects.get('assigned_list')
+        #user_list = kwargs.get ("assigned_list")
+        user_list = Ticket.objects.filter (assigned_to=user_id)
+        #print user_id, '========RUKmini -----==============', user_list
         ticket_id = kwargs.get("ticket_id")
         context = super(TicketUpdateTemplateView, self).get_context_data(**kwargs)
         ticket = Ticket.objects.get(pk=ticket_id)

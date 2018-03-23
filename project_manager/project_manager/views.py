@@ -20,7 +20,7 @@ def login_user(request):
                 if next_url:
                     return HttpResponseRedirect(next_url)
                 else:
-                    return HttpResponseRedirect('/ticket/dashboard/')
+                    return HttpResponseRedirect('/user_redirection/')
         else:
             messages.warning(
                 request, "Please enter valid username or password")
@@ -30,6 +30,19 @@ def login_user(request):
         'signin.html',
         {'username': username},
         context_instance=RequestContext(request))
+
+
+def user_redirection(request):
+    groups = request.user.groups.values_list('name', flat=True)
+    print groups
+    if 'manager' in groups:
+        return HttpResponseRedirect ('/ticket/dashboard/')
+    elif 'subordinate' in groups:
+        return HttpResponseRedirect('/ticket/user_dashboard')
+    else:
+        messages.warning (
+            request, "Please enter valid username or password")
+        return HttpResponseRedirect ('/')
 
 
 def change_password(request):
@@ -49,3 +62,4 @@ def change_password(request):
     else:
         return render(request, 'change_password.html', {
             'username': username})
+

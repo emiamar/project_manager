@@ -29,6 +29,7 @@ urlpatterns = [
         'django.contrib.auth.views.logout',
         {'template_name': 'logout.html'}, name='logout'),
     url(r'^$', views.login_user, name='login_user'),
+    url(r'^user_redirection/', views.user_redirection),
     url(r'^change_password/', views.change_password, name='change_password'),
 ]
 

@@ -72,8 +72,8 @@
                 <li class="dropdown">
                     Hello {{username | capfirst}}!!
                 </li>
-                
-                
+
+
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -113,8 +113,6 @@
                         <!-- <li class="divider"></li> -->
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
-                        <li><a href="/change_password/"><i class="fa fa-user fa-fw"></i> Change password</a>
-                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -137,7 +135,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="{% url 'ticket:dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{% url 'ticket:user_dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <!-- <li> -->
                             <!-- <a href="#"><i class="fa fa-sitemap  fa-fw"></i> Projects<span class="fa arrow"></span></a>
@@ -165,9 +163,9 @@
                             <a href=""><i class="fa fa-cogs fa-spin"></i> Machines</a>
                         </li> -->
                         <li>
-                            <a href="{% url 'ticket:ticket_list' %}"><i class="fa fa-users"></i> Task List</a>
+                            <a href="{% url 'ticket:user_tcket_list' %}"><i class="fa fa-users"></i> Task List</a>
                         </li>
-                        
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -196,7 +194,7 @@
 
     <!-- Morris Charts JavaScript -->
     <script src="../../../../static/js/raphael-min.js"></script>
-    <script src="../../../../static/js/morris.min.js"></script> 
+    <script src="../../../../static/js/morris.min.js"></script>
     <!--<script src="../../../../static/js/morris-data.js"></script>-->
 
     <!-- Custom Theme JavaScript -->
