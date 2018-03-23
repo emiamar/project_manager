@@ -41,7 +41,7 @@ def user_redirection(request):
         return HttpResponseRedirect('/ticket/user_dashboard')
     else:
         messages.warning (
-            request, "Please enter valid username or password")
+            request, "No vaild group assigned")
         return HttpResponseRedirect ('/')
 
 
