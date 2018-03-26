@@ -12,6 +12,8 @@ urlpatterns = [
     	views.UserDashboardView.as_view(), name='user_dashboard'),
     url(r'^create/$',
         TicketCreateView.as_view(), name='create'),
+    url(r'^add_milestone/$',
+        MilestoneCreateView.as_view(), name='add_milestone'),
     url(r'^delete/$',
         delete_ticket, name='delete'),
     url(r'^user_ticket_list/$',

@@ -6,6 +6,12 @@
             <h3><u>Task Details</u></h3>
         </div><br><br>
         <div class="row">
+                <div class="col-md-3">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addapp">Add Comment</button>
+                  <br><br>
+                </div>
+            </div>
+        <div class="row">
             <div class="col-md-8">
                 <tbody>
                   <table class="table table-sm">
@@ -35,6 +41,37 @@
                 </ul>
             </div>
         </div><br><br>
+        <!-- Modal -->
+                <div class="modal fade" id="addapp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                          <span aria-hidden="true">&times;</span>
+                          <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Add comment</h4>
+                      </div>
+                      <div class="modal-body">
+
+                        <form role='form' action="/ticket/add_milestone/" method="post">
+                            {% csrf_token %}
+                            <div>
+                                <input type="text" hidden="" id="task_id" name="ticket" value="{{ticket.id}}">
+                            </div>
+                            <div>
+                                {{form | crispy}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button class="btn btn-primary" >Add</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                </form>
+                <!-- Modal End -->
 {% else %}
     <p>No details are available.</p>
 {% endif %}

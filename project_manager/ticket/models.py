@@ -34,7 +34,7 @@ STATE = (
 
 class Ticket(TimeStamp):
 
-    ticket_type = models.IntegerField(choices=TICKET_TYPE)
+    ticket_type = models.IntegerField('Task Type', choices=TICKET_TYPE)
     title = models.CharField(max_length=500)
     description = models.TextField(max_length=1000)
     due_date = models.DateField()
@@ -52,7 +52,7 @@ class MileStone(TimeStamp):
 
     ticket = models.ForeignKey(
         'ticket.Ticket', related_name="milestones")
-    comment = models.CharField(max_length=500)
+    comment = models.TextField(max_length=500)
     hr_spent = models.DurationField(default=0)
     user = models.ForeignKey('auth.User')
     current_state = models.IntegerField(choices=STATE)
