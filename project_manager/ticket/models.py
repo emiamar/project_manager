@@ -52,7 +52,7 @@ class MileStone(TimeStamp):
 
     ticket = models.ForeignKey(
         'ticket.Ticket', related_name="milestones")
-    comment = models.CharField(max_length=500)
+    comment = models.TextField(max_length=500)
     hr_spent = models.DurationField(default=0)
     user = models.ForeignKey('auth.User')
     current_state = models.IntegerField(choices=STATE)
