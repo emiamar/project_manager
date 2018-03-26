@@ -34,7 +34,7 @@ STATE = (
 
 class Ticket(TimeStamp):
 
-    ticket_type = models.IntegerField(choices=TICKET_TYPE)
+    ticket_type = models.IntegerField('Task Type', choices=TICKET_TYPE)
     title = models.CharField(max_length=500)
     description = models.TextField(max_length=1000)
     due_date = models.DateField()
