@@ -1,10 +1,21 @@
 {% extends "base/base_dasboard_user.html" %}
 {% load crispy_forms_tags %}
 {% block wrapper%}
-{% if detail_list %}
+
         <div class="row">
-            <h3><u>Task Details</u></h3>
+            <h3>Task Details</h3>
         </div><br><br>
+        <div class="row">
+                <div class="col-lg-12">
+                    {% if messages %}
+                         {% for message in messages %}
+                         <div class="alert alert-success" role="alert">
+                          <strong>{{ message }}</strong>
+                        </div>
+                         {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         <div class="row">
                 <div class="col-md-3">
                   <button class="btn btn-primary" data-toggle="modal" data-target="#addapp">Add Comment</button>
@@ -72,7 +83,5 @@
                 </div>
                 </form>
                 <!-- Modal End -->
-{% else %}
-    <p>No details are available.</p>
-{% endif %}
+
 {% endblock %}
