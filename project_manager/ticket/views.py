@@ -11,6 +11,16 @@ class DashboardView(GeneralContextMixin, TemplateView):
 
     template_name = 'ticket/dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        wip_ticket_count = Ticket.objects.filter(status=3).count()
+        all_time_delivery_count = Ticket.objects.filter(status=2).count()
+        pending_ticket_count = 0
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        context['wip_ticket_count'] = wip_ticket_count
+        context['all_time_delivery_count'] = all_time_delivery_count
+        context['pending_ticket_count'] = pending_ticket_count
+        return context
+
 
 class UserDashboardView(GeneralContextMixin, TemplateView):
 
