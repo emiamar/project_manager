@@ -14,7 +14,7 @@ class DashboardView(GeneralContextMixin, TemplateView):
     def get_context_data(self, **kwargs):
         wip_ticket_count = Ticket.objects.filter(status=3).count()
         all_time_delivery_count = Ticket.objects.filter(status=2).count()
-        pending_ticket_count = 0
+        pending_ticket_count = Ticket.objects.filter(status=4).count()
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['wip_ticket_count'] = wip_ticket_count
         context['all_time_delivery_count'] = all_time_delivery_count
@@ -33,8 +33,11 @@ class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
     object_name = 'Ticket'
 
     def get_context_data(self, **kwargs):
+        ticket_list = Ticket.objects.all ()
+        status = self.request.GET.get('status')
+        if status:
+            ticket_list = ticket_list.filter(status=status)
         context = super(TicketListView, self).get_context_data(**kwargs)
-        ticket_list = Ticket.objects.all()
         context['ticket_list'] = ticket_list
         context['form'] = TaskForm()
         return context
@@ -147,6 +150,7 @@ class TicketUpdateTemplateView (GeneralContextMixin, TemplateView):
 
 def delete_ticket(request):
     delete_ids = request.GET.getlist('for_action')
+    # message
     return HttpResponse('/ticket/ticket_list')
 
 
