@@ -46,6 +46,8 @@ class Ticket(TimeStamp):
 
     def assigned_list(self):
         usernames = self.assigned_to.values_list('username', flat=True)
+        usernames = map(str, usernames)
+        usernames = map(str.capitalize, usernames)
         return ','.join(usernames)
 
 class MileStone(TimeStamp):
