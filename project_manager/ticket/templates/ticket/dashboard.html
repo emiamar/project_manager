@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -101,13 +101,16 @@ $(document).ready(function(){
         element: 'morris-donut-chart',
         data: [{
             label: "WIP",
-            value: {{wip_ticket_count}}
+            value: {{wip_ticket_count}},
+            color: "orange",
+
         }, {
             label: "Completed",
-            value: {{all_time_delivery_count}}
+            value: {{all_time_delivery_count}},
         }, {
             label: "Pending",
-            value: {{pending_ticket_count}}
+            value: {{pending_ticket_count}},
+            color: "red",
         }],
         resize: true
     });
