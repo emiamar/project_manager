@@ -25,6 +25,17 @@ class DashboardView(GeneralContextMixin, TemplateView):
 class UserDashboardView(GeneralContextMixin, TemplateView):
 
     template_name = 'ticket/user_dashboard.html'
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user
+        # user_list = Ticket.objects.filter (assigned_to=user_id)
+        wip_ticket_count = Ticket.objects.filter(status=3, assigned_to = user_id).count()
+        all_time_delivery_count = Ticket.objects.filter(status=2, assigned_to = user_id).count()
+        pending_ticket_count = Ticket.objects.filter(status=4, assigned_to = user_id).count()
+        context = super(UserDashboardView, self).get_context_data(**kwargs)
+        context['wip_ticket_count'] = wip_ticket_count
+        context['all_time_delivery_count'] = all_time_delivery_count
+        context['pending_ticket_count'] = pending_ticket_count
+        return context
 
 
 class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
@@ -75,12 +86,15 @@ class TicketDetailUserView(GeneralContextMixin, TemplateView):
 
 
 class TicketListUserView(GeneralContextMixin, TemplateView):
-    template_name = 'ticket/user_tcket_list.html'
+    template_name = 'ticket/user_ticket_list.html'
     model = Ticket
     object_name = 'Ticket'
     def get_context_data(self, **kwargs):
         user_id = self.request.user
-        user_list = Ticket.objects.filter(assigned_to=user_id)
+        user_list = Ticket.objects.filter (assigned_to=user_id)
+        status = self.request.GET.get ('status')
+        if status:
+            user_list = user_list.filter (status=status, )
         context = super(TicketListUserView, self).get_context_data(**kwargs)
         context['form'] = MileStoneForm()
         context['user_list'] = user_list

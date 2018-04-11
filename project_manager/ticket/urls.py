@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^delete/$',
         delete_ticket, name='delete'),
     url(r'^user_ticket_list/$',
-    	TicketListUserView.as_view(), name='user_tcket_list'),
+    	TicketListUserView.as_view(), name='user_ticket_list'),
     url(r'^ticket_list/$',
     	views.TicketListView.as_view(), name='ticket_list'),
     url(r'^update_template/(?P<ticket_id>[^/]+)/$',
