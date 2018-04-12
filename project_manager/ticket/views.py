@@ -5,11 +5,13 @@ from base.mixin import  GeneralContextMixin, DeleteMixin
 from django.shortcuts import HttpResponseRedirect, HttpResponse
 from base.views import GenericModalCreateView
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 
-class DashboardView(GeneralContextMixin, TemplateView):
+class DashboardView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
 
     template_name = 'ticket/dashboard.html'
+    permission_required = 'ticket.add_ticket'
 
     def get_context_data(self, **kwargs):
         wip_ticket_count = Ticket.objects.filter(status=3).count()
