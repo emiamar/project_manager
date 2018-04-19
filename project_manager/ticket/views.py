@@ -24,9 +24,10 @@ class DashboardView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
         return context
 
 
-class UserDashboardView(GeneralContextMixin, TemplateView):
+class UserDashboardView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
 
     template_name = 'ticket/user_dashboard.html'
+    permission_required = 'ticket.add_milestone'
     def get_context_data(self, **kwargs):
         user_id = self.request.user
         # user_list = Ticket.objects.filter (assigned_to=user_id)
@@ -40,10 +41,11 @@ class UserDashboardView(GeneralContextMixin, TemplateView):
         return context
 
 
-class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
+class TicketListView(PermissionRequiredMixin, DeleteMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/ticket_list.html'
     model = Ticket
     object_name = 'Ticket'
+    permission_required = 'ticket.add_ticket'
 
     def get_context_data(self, **kwargs):
         ticket_list = Ticket.objects.all ()
@@ -60,9 +62,9 @@ class TicketListView(DeleteMixin, GeneralContextMixin, TemplateView):
 
 
 # MilestoneListView TicketListUserView
-class TicketDetailView(GeneralContextMixin, TemplateView):
+class TicketDetailView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/all_user_details.html'
-
+    permission_required = 'ticket.add_ticket'
     def get_context_data(self, **kwargs):
         ticket_id = kwargs.get("ticket_id")
         context = super(TicketDetailView, self).get_context_data(**kwargs)
@@ -73,9 +75,9 @@ class TicketDetailView(GeneralContextMixin, TemplateView):
         return context
 
 
-class TicketDetailUserView(GeneralContextMixin, TemplateView):
+class TicketDetailUserView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/detail_user.html'
-
+    permission_required = 'ticket.add_milestone'
     def get_context_data(self, **kwargs):
         ticket_id = kwargs.get("ticket_id")
         context = super(TicketDetailUserView, self).get_context_data(**kwargs)
@@ -87,10 +89,11 @@ class TicketDetailUserView(GeneralContextMixin, TemplateView):
         return context
 
 
-class TicketListUserView(GeneralContextMixin, TemplateView):
+class TicketListUserView(PermissionRequiredMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/user_ticket_list.html'
     model = Ticket
     object_name = 'Ticket'
+    permission_required = 'ticket.add_milestone'
     def get_context_data(self, **kwargs):
         user_id = self.request.user
         user_list = Ticket.objects.filter (assigned_to=user_id)
@@ -111,8 +114,9 @@ class TicketCreateView (GenericModalCreateView):
     success_url = '/ticket/ticket_list/'
 
 
-class MilestoneCreateView (GenericModalCreateView):
+class MilestoneCreateView (PermissionRequiredMixin, GenericModalCreateView):
     form_class = MileStoneForm
+    permission_required = 'ticket.add_milestone'
     def form_init(self, request, *args, **kwargs):
         data = request.POST.copy()
         data['user'] = request.user.id
@@ -152,8 +156,9 @@ class TicketUpdateView(GeneralContextMixin, GenericModalCreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class TicketUpdateTemplateView (GeneralContextMixin, TemplateView):
+class TicketUpdateTemplateView (PermissionRequiredMixin, GeneralContextMixin, TemplateView):
     template_name = 'ticket/update.html'
+    permission_required = 'ticket.add_ticket'
     def get_context_data(self, **kwargs):
         user_id = self.request.user
         ticket_id = kwargs.get("ticket_id")
